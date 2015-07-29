@@ -237,11 +237,11 @@ CLR.test = function(ivmodel,beta0=0,alpha=0.05) {
   sigmaHatInv = invTwobyTwoSymMatrix(sigmaHat) 
   
   a0 = c(beta0,1); b0 = c(1,-beta0)
-  denomS = sum((sigmaHat %*% b0)^2); denomT = sum((sigmaHatInv %*% a0)^2)
+  denomS = t(b0) %*% sigmaHat %*% b0; denomT = t(a0) %*% sigmaHatInv %*% a0
   numT = PZYadjANDDadj %*% sigmaHatInv 
   QS = sum( (PZYadjANDDadj %*% b0)^2) / denomS
   QT = sum( (numT %*% a0)^2) / denomT
-  QTS = sum( b0 * (numT %*% a0)) / (sqrt(denomS) * sqrt(denomT))
+  QTS = sum( (PZYadjANDDadj %*% b0) * (numT %*% a0)) / (sqrt(denomS) * sqrt(denomT))
   
   LRtest = 1/2 * (QS - QT + sqrt((QS + QT)^2 - 4*(QS *QT - QTS^2)))
   
@@ -249,8 +249,7 @@ CLR.test = function(ivmodel,beta0=0,alpha=0.05) {
   p.value = matrix(condPvalue(LRtest,QT,ivmodel$L),1,1) 
   
   maxEigen = max(quadSolver(a=1,b=-1*(QS + QT),c=QS *QT - QTS^2)) #of Q matrix
-  C = tryCatch({uniroot(function(y){condPvalue(m=maxEigen - y,qT = y,k = ivmodel$L) - alpha},lower=0,upper=maxEigen)$root},
-            error=function(e){0}) 
+  C = tryCatch({uniroot(function(y){condPvalue(m=maxEigen - y,qT = y,k = ivmodel$L) - alpha},lower=0,upper=maxEigen*10)$root},error=function(e){0}) #*10 is there for numerical stability
   quadMatrix.CLR = sigmaHatInv %*% t(YadjANDDadj) %*% numT - C * sigmaHatInv
   ci.CLR = quadSolver(a=quadMatrix.CLR[1,1],b=2*quadMatrix.CLR[1,2],c=quadMatrix.CLR[2,2])
   if(quadMatrix.CLR[1,1] > 0) {
@@ -276,6 +275,33 @@ CLR.test = function(ivmodel,beta0=0,alpha=0.05) {
   colnames(ci.CLR) = c(paste(as.character(round(alpha/2 * 100,1)),"%"),paste(as.character( round((1-alpha/2) * 100,1)),"%"))
   
   return(list(test.stat = test.stat,p.value = p.value,ci = ci.CLR,ci.info = info))
+}
+
+
+##### power and size for TSLS
+
+TSLS.power=function(n, beta, rho_ZD, sigmau, sigmaDsq, alpha=0.05){
+  return(c(1+pnorm(-qnorm(1-alpha/2)-beta*rho_ZD*sqrt(n*sigmaDsq)/sigmau)-pnorm(qnorm(1-alpha/2)-beta*rho_ZD*sqrt(n*sigmaDsq)/sigmau)))
+}
+
+TSLS.size=function(power, beta, rho_ZD, sigmau, sigmaDsq, alpha=0.05){
+  return(c((qnorm(1-alpha/2)+qnorm(power))^2*sigmau^2/beta^2/rho_ZD^2/sigmaDsq))
+}
+
+##### covariance matrix estimator
+
+para=function(ivmodel){
+  output=list()
+  fit1=lm(ivmodel$Dadj~ivmodel$Zadj-1)
+  output$gamma=coef(fit1)
+  names(output$gamma)=NULL
+  output$beta=c(kClassEst(ivmodel, k=1)$point.est)
+  hat_eps=ivmodel$Yadj-c(output$beta)*ivmodel$Dadj
+  hat_eta=resid(fit1)
+  output$sigmau=sqrt(sum(hat_eps^2)/(ivmodel$n-ivmodel$p))
+  output$sigmav=sqrt(sum(hat_eta^2)/(ivmodel$n-ivmodel$p))
+  output$rho=sum(hat_eta*hat_eps)/(ivmodel$n-ivmodel$p)/output$sigmau/output$sigmav
+  return(output)
 }
 
 #####  AR test and CI

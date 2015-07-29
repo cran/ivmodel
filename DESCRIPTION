@@ -1,15 +1,16 @@
 Package: ivmodel
 Type: Package
-Title: Statistical Inference and Diagnostics for Instrumental Variables
-        Model
-Version: 1.0
-Date: 2015-04-30
+Title: Statistical Inference and Sensitivity Analysis for Instrumental
+        Variables Model
+Version: 1.1
+Date: 2015-07-29
 Author: Yang Jiang, Hyunseung Kang, and Dylan Small
-Maintainer: Hyunseung Kang <khyuns@wharton.upenn.edu>
-Description: Contains functions for carrying out instrumental variable estimation of causal effects, including power analysis, sensitivity analysis, and diagnostics. 
+Maintainer: Hyunseung Kang <hskang@stanford.edu>
+Description: Contains functions for carrying out instrumental variable estimation of causal effects, including power analysis, sensitivity analysis, and diagnostics.
 Depends: Matrix
 License: GPL-2
-Packaged: 2015-05-03 17:56:46 UTC; khyuns
+LazyData: true
 NeedsCompilation: no
+Packaged: 2015-07-30 04:36:34 UTC; khyuns
 Repository: CRAN
-Date/Publication: 2015-05-04 01:31:33
+Date/Publication: 2015-07-30 07:07:08

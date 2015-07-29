@@ -1,14 +1,9 @@
 \name{card.data}
 \alias{card.data}
 \docType{data}
-\title{
-card.data
-%%   ~~ data name/kind ... ~~
-}
+\title{Card (1995) Data}
 \description{
-Data from the National Longitudinal Survey of Young Men (NLSYM) that was used by Card (1995).
-%%  ~~ A concise (1-5 lines) description of the dataset. ~~
-}
+Data from the National Longitudinal Survey of Young Men (NLSYM) that was used by Card (1995).}
 \usage{data(card.data)}
 \format{
   A data frame with 3010 observations on the following 35 variables.
@@ -51,11 +46,10 @@ Data from the National Longitudinal Survey of Young Men (NLSYM) that was used by
   }
 }
 \source{
-Card, D.  Using Geographic Variation in College Proximity to Estimate the Return to Schooling. In Aspects of Labor Market Behavior: Essays in Honor of John Vanderkamp, eds. L.N. Christophides, E.K. Grant and R. Swidinsky.  201-222. 
-National Longitudinal Survey of Young Men: https://www.nlsinfo.org/investigator/pages/login.jsp
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
+Card, D.  Using Geographic Variation in College Proximity to Estimate the Return to Schooling. In Aspects of Labor Market Behavior: Essays in Honor of John Vanderkamp, eds. L.N. Christophides, E.K. Grant and R. Swidinsky.  201-222. National Longitudinal Survey of Young Men: https://www.nlsinfo.org/investigator/pages/login.jsp
 }
 \examples{
 data(card.data)
 }
 \keyword{datasets}
+\keyword{Card (1995) data}

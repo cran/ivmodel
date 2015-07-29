@@ -1,8 +1,10 @@
 exportPattern("^[[:alpha:]]+")
 import(Matrix)
-export(condPvalue, invTwobyTwoSymMatrix,quadSolver, kClassEst, LIMLEst,FullerEst,CLR.test,AR.test,AR.power,AR.size,ARsens.test,
-       ARsens.power, ARsens.size, qrrank, qrRM, ivmodel, coef.ivmodel, print.ivmodel, confint.ivmodel)
-S3method("print","ivmodel")
+importFrom("stats","coef","integrate","lm","model.frame","pchisq","pf",
+           "pnorm","printCoefmat","pt","qf","qnorm","qt","resid",
+           "terms","uniroot")
+export(condPvalue, invTwobyTwoSymMatrix, quadSolver, kClassEst, LIMLEst,FullerEst,CLR.test,AR.test,AR.power,AR.size,ARsens.test,
+       ARsens.power, ARsens.size, qrrank, qrRM, ivmodel, coef.ivmodel, para, summary.ivmodel, confint.ivmodel, TSLS.power, TSLS.size)
 S3method("coef","ivmodel")
 S3method("confint","ivmodel")
-
+S3method("summary","ivmodel")

@@ -9,16 +9,16 @@ ivmodel(Y, D, Z, X, intercept = TRUE, beta0 = 0, alpha = 0.05,
         k = c(0, 1), heteroSE = FALSE, deltarange = NULL)
 }
 \arguments{
-  \item{Y}{A numeric vector of outcomes}
-  \item{D}{A vector of endogenous variables}
-  \item{Z}{A matrix or data frame of instruments}
-  \item{X}{A matrix or data frame of (exogenous) covariates}
-  \item{intercept}{Should the intercept be included? Default is TRUE}
-  \item{beta0}{Null value \eqn{\beta_0} for testing null hypothesis \eqn{H_0: \beta = \beta_0} in \code{ivmodel}. Default is $0$}
-  \item{alpha}{The significance level for hypothesis testing. Default is 0.05}
-  \item{k}{A numeric vector of k values for k-class estimation. Default is 0 (OLS) and 1 (TSLS)}
-  \item{heteroSE}{Should heteroscedastic-robust standard errors be used? Default is FALSE}
-  \item{deltarange}{Range of \eqn{\delta} for sensitivity analysis with the Anderson-Rubin test}
+  \item{Y}{A numeric vector of outcomes.}
+  \item{D}{A vector of endogenous variables.}
+  \item{Z}{A matrix or data frame of instruments.}
+  \item{X}{A matrix or data frame of (exogenous) covariates.}
+  \item{intercept}{Should the intercept be included? Default is TRUE.}
+  \item{beta0}{Null value \eqn{\beta_0} for testing null hypothesis \eqn{H_0: \beta = \beta_0} in \code{ivmodel}. Default is $0$.}
+  \item{alpha}{The significance level for hypothesis testing. Default is 0.05.}
+  \item{k}{A numeric vector of k values for k-class estimation. Default is 0 (OLS) and 1 (TSLS).}
+  \item{heteroSE}{Should heteroscedastic-robust standard errors be used? Default is FALSE.}
+  \item{deltarange}{Range of \eqn{\delta} for sensitivity analysis with the Anderson-Rubin (1949) test.}
 }
 \details{
 Let \eqn{Y_i}, \eqn{D_i}, \eqn{X_{i.}}, and \eqn{Z_{i.}} represent \eqn{i}th individual's outcome, endogenous variable, \emph{p} dimensional exogenous covariates, and \emph{L} dimensional instruments, respectively; note that the intercept can be considered as a vector of ones and a part of the exogenous covariates \eqn{X_{i.}}. \code{ivmodel} assumes the following IV model
@@ -32,13 +32,13 @@ Some procedures (e.g. conditional likelihood ratio test, sensitivity analysis wi
   \code{ivmodel} returns an object of class "ivmodel".
   
   An object class "ivmodel" is a list containing the following components
-  \item{alpha}{Significance level for the hypothesis tests}
-  \item{beta0}{Null value of the hypothesis tests}
-  \item{kClass}{A list from \code{kClassEst} function}
-  \item{LIML}{A list from \code{LIMLEst} function}
-  \item{Fuller}{A list from \code{FullerEst} function}
-  \item{AR}{A list from \code{AR.test}}
-  \item{CLR}{A list from \code{CLR.test}}
+  \item{alpha}{Significance level for the hypothesis tests.}
+  \item{beta0}{Null value of the hypothesis tests.}
+  \item{kClass}{A list from \code{kClassEst} function.}
+  \item{LIML}{A list from \code{LIMLEst} function.}
+  \item{Fuller}{A list from \code{FullerEst} function.}
+  \item{AR}{A list from \code{AR.test}.}
+  \item{CLR}{A list from \code{CLR.test}.}
   In addition, if there is only one instrument, \code{ivreg} will generate an "ARsens" list within "ivmodel" object.
 }
 \references{
@@ -51,10 +51,15 @@ Some procedures (e.g. conditional likelihood ratio test, sensitivity analysis wi
   Moreira, M. J. (2003). A conditional likelihood ratio test for structural models. \emph{Econometrica} 71, 1027-1048.
 
   Sargan, J. D. (1958). The estimation of economic relationships using instrumental variables. Econometrica , 393-415. 
+  
+  Freeman G, Cowling BJ, Schooling CM (2013). Power and Sample Size Calculations for Mendelian Randomization Studies Using One Genetic Instrument. International journal of epidemiology, 42(4), 1157-1163.
+  
 }
 \author{Yang Jiang, Hyunseung Kang, and Dylan Small}
 \seealso{
-See also \code{\link{kClassEst}}, \code{\link{LIMLEst}}, \code{\link{FullerEst}}, \code{\link{AR.test}}, and \code{\link{CLR.test}} for individual methods associated with \code{ivmodel}. For sensitivity analysis with the Anderson-Rubin test, see \code{\link{ARsens.test}}. \code{ivmodel} has \code{\link{print.ivmodel}}, \code{\link{confint.ivmodel}}, and \code{\link{coef.ivmodel}} methods associated with it.
+See also \code{\link{kClassEst}}, \code{\link{LIMLEst}}, \code{\link{FullerEst}}, \code{\link{AR.test}}, and \code{\link{CLR.test}} for individual methods associated with \code{ivmodel}. For sensitivity analysis with the AR test, 
+see \code{\link{ARsens.test}}. \code{ivmodel} has \code{\link{summary.ivmodel}}, \code{\link{confint.ivmodel}}, and 
+\code{\link{coef.ivmodel}} methods associated with it.
 }
 \examples{
 data(card.data)
@@ -62,8 +67,9 @@ data(card.data)
 Y=card.data[,"lwage"]
 D=card.data[,"educ"]
 Z=card.data[,"nearc4"]
-Xname=c("exper", "expersq", "black", "south", "smsa", "reg661", "reg662", 
-        "reg663", "reg664", "reg665", "reg666", "reg667", "reg668", "smsa66")
+Xname=c("exper", "expersq", "black", "south", "smsa", "reg661", 
+        "reg662", "reg663", "reg664", "reg665", "reg666", "reg667", 
+		"reg668", "smsa66")
 X=card.data[,Xname]
 card.model1IV = ivmodel(Y=Y,D=D,Z=Z,X=X)
 card.model1IV

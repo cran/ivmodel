@@ -158,8 +158,8 @@ coef.ivmodel<-function(object, ...){
 }
 
 
-print.ivmodel <- function(x, digits = max(3L, getOption("digits") - 3L), ...){
-  ivmodel<-x
+summary.ivmodel <- function(object, ...){
+  ivmodel<-object
 ### print formula
   cat("\nCall:\n", paste(deparse(ivmodel$call), sep = "\n", collapse = "\n"), 
       "\n", sep = "")
@@ -187,6 +187,8 @@ print.ivmodel <- function(x, digits = max(3L, getOption("digits") - 3L), ...){
   cat("Residual standard error: ", RMSE, " on ", DT, " degrees of freedom\n", sep="")
 	  
 ### Sargan test
+  if(ivmodel$L>1){
+
   cat(rep("_", 30), "\n")
   cat("\nSargan Test Result:\n\n")
 
@@ -198,10 +200,12 @@ print.ivmodel <- function(x, digits = max(3L, getOption("digits") - 3L), ...){
   
   cat("Sargan Test Statistics=", Sargan, ", df=", ivmodel$L-1, ", p-value is ", format.pval(pval), "\n", sep="")
   
+  }
+  
 ### print TSLS, kClass, LIML, Fuller
   cat(rep("_", 30), "\n")
   cat("\nCoefficients of k-Class Estimators:\n\n")
-  printCoefmat(coef(ivmodel), digits = digits)
+  printCoefmat(coef(ivmodel), digits = max(3L, getOption("digits") - 3L))
 	  
 ### print AR, ARsens, CLR
   cat(rep("_", 30), "\n")

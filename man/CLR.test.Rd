@@ -2,7 +2,9 @@
 \alias{CLR.test}
 \title{Conditional Likelihood Ratio Test}
 \description{\code{CLR.test} computes the conditional likelihood ratio test (Moreira, 2003) for the \code{ivmodel} object as well as the associated confidence interval.}
-\usage{CLR.test(ivmodel, beta0 = 0, alpha = 0.05)}
+\usage{
+CLR.test(ivmodel, beta0 = 0, alpha = 0.05)
+}
 \arguments{
   \item{ivmodel}{\code{ivmodel} object}
   \item{beta0}{Null value \eqn{\beta_0} for testing null hypothesis \eqn{H_0: \beta = \beta_0} in \code{ivmodel}. Default is 0}
@@ -22,16 +24,15 @@
   Moreira, M. J. (2003). A conditional likelihood ratio test for structural models. \emph{Econometrica} 71, 1027-1048.
 }
 \author{Yang Jiang, Hyunseung Kang, and Dylan Small}
-\seealso{
-See also \code{\link{ivmodel}} for details on the instrumental variables model.
-}
+\seealso{See also \code{\link{ivmodel}} for details on the instrumental variables model.}
 \examples{
 data(card.data)
 Y=card.data[,"lwage"]
 D=card.data[,"educ"]
 Z=card.data[,c("nearc4","nearc2")]
-Xname=c("exper", "expersq", "black", "south", "smsa", "reg661", "reg662", 
-        "reg663", "reg664", "reg665", "reg666", "reg667", "reg668", "smsa66")
+Xname=c("exper", "expersq", "black", "south", "smsa", "reg661", 
+        "reg662", "reg663", "reg664", "reg665", "reg666", "reg667", 
+		"reg668", "smsa66")
 X=card.data[,Xname]
 card.model2IV = ivmodel(Y=Y,D=D,Z=Z,X=X)
 CLR.test(card.model2IV,alpha=0.01)
