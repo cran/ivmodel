@@ -5,14 +5,14 @@
 \packageTitle{ivmodel}
 }
 \description{
-The package fits an instrumental variables (IV) model of the following type. Let \eqn{Y_i}, \eqn{D_i}, \eqn{X_{i.}}, and \eqn{Z_{i.}} represent \eqn{i}th individual's outcome, endogenous variable, \emph{p} dimensional exogenous covariates, and \emph{L} dimensional instruments, respectively; note that the intercept can be considered as a vector of ones and a part of the exogenous covariates \eqn{X_{i.}}.The package assumes the following IV model
-\deqn{ Y_i = X_{i.} \alpha + D_i \beta + \epsilon_i, E(\epsilon_i | X_{i.}, Z_{i.}) = 0}
+The package fits an instrumental variables (IV) model of the following type. Let \eqn{Y}, \eqn{D}, \eqn{X}, and \eqn{Z} represent the outcome, endogenous variable, \emph{p} dimensional exogenous covariates, and \emph{L} dimensional instruments, respectively; note that the intercept can be considered as a vector of ones and a part of the exogenous covariates \eqn{X}.The package assumes the following IV model
+\deqn{ Y = X \alpha + D \beta + \epsilon, E(\epsilon | X, Z) = 0}
 It carries out several IV regressions, diagnostics, and tests associated with the parameter \eqn{\beta} in the IV model. Also, if there is only one instrument, the package runs a sensitivity analysis discussed in Jiang et al. (2015).
 
 The package is robust to most data formats, including factor and character data, and can handle very large IV models efficiently using a sparse QR decomposition.
 }
 \details{
-Supply the outcome \eqn{Y}, the endogenous variable \eqn{D}, and a data frame and/or matrix of instruments \eqn{Z}, and a data frame and/or matrix of exogenous covariates \eqn{X} (optional) and run \code{ivmodel}. \code{ivmodel} will generate all the relevant statistics for the parameter \eqn{\beta}.
+Supply the outcome \eqn{Y}, the endogenous variable \eqn{D}, and a data frame and/or matrix of instruments \eqn{Z}, and a data frame and/or matrix of exogenous covariates \eqn{X} (optional) and run \code{ivmodel}. Alternatively, one can supply a formula. \code{ivmodel} will generate all the relevant statistics for the parameter \eqn{\beta}.
 
 The DESCRIPTION file:
 \packageDESCRIPTION{ivmodel}

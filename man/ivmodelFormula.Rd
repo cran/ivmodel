@@ -1,21 +1,27 @@
-\name{ivmodel}
-\alias{ivmodel}
+\name{ivmodelFormula}
+\alias{ivmodelFormula}
 \title{Fitting Instrumental Variables (IV) Models}
 \description{
-\code{ivmodel} fits an instrumental variables (IV) model with one endogenous variable and a continuous outcome. It carries out several IV regressions, diagnostics, and tests associated this IV model. It is robust to most data formats, including factor and character data, and can handle very large IV models efficiently.
+\code{ivmodelFormula} fits an instrumental variables (IV) model with one endogenous variable and a continuous outcome. It carries out several IV regressions, diagnostics, and tests associated this IV model. It is robust to most data formats, including factor and character data, and can handle very large IV models efficiently.
 }
 \usage{
-ivmodel(Y, D, Z, X, intercept = TRUE, 
-        beta0 = 0, alpha = 0.05, k = c(0, 1), 
-        heteroSE = FALSE, clusterID = NULL,
-        deltarange = NULL)
+ivmodelFormula(formula, data, subset, na.action,
+        beta0=0,alpha=0.05,k=c(0,1), 
+        heteroSE = FALSE, clusterID = NULL, 
+        deltarange=NULL)
  }                      	
 \arguments{
-  \item{Y}{A numeric vector of outcomes.}
-  \item{D}{A vector of endogenous variables.}
-  \item{Z}{A matrix or data frame of instruments.}
-  \item{X}{A matrix or data frame of (exogenous) covariates.}
-  \item{intercept}{Should the intercept be included? Default is TRUE.}
+  \item{formula}{a formula describing the model to be fitted. For example, the formula \code{Y ~ D + X1 + X2 | Z1 + Z2 + X1 + X2} describes the mode where
+  	             \deqn{ Y = \alpha_0 + D \beta +  X_{1} \alpha_1 + X_{2} \alpha_2 + \epsilon}
+  	             and 
+  	             \deqn{ D = \gamma_0 + Z_{1} \gamma_1 + Z_{2} \gamma2 + X_{1} \kappa_1 + X_{2} \kappa_2 + \xi}
+  	             The outcome is \code{Y}, the endogenous variable is \code{D}. The exogenous covariates are \code{X1} and \code{X2}.
+  	             The instruments are \code{Z1} and \code{Z2}. The formula environment follows the formula environment 
+  	             in the \code{ivreg} function in the AER package.}
+  \item{data}{an optional data frame containing the variables in the model.
+              By default the variables are taken from the environment which \code{ivmodel} is called from}	             
+  \item{subset}{an index vector indicating which rows should be used.}
+  \item{na.action}{A function to specify the action to be taken if NAsare found. }
   \item{beta0}{Null value \eqn{\beta_0} for testing null hypothesis \eqn{H_0: \beta = \beta_0} in \code{ivmodel}. Default is $0$.}
   \item{alpha}{The significance level for hypothesis testing. Default is 0.05.}
   \item{k}{A numeric vector of k values for k-class estimation. Default is 0 (OLS) and 1 (TSLS).}
@@ -77,12 +83,30 @@ Xname=c("exper", "expersq", "black", "south", "smsa", "reg661",
         "reg662", "reg663", "reg664", "reg665", "reg666", "reg667", 
 		"reg668", "smsa66")
 X=card.data[,Xname]
-card.model1IV = ivmodel(Y=Y,D=D,Z=Z,X=X)
+card.model1IV = ivmodelFormula(lwage ~ educ + exper + expersq + black + 
+                                south + smsa + reg661 + 
+                                reg662 + reg663 + reg664 + 
+                                reg665 + reg666 + reg667 + 
+                                reg668 + smsa66 | nearc4 + 
+                                exper + expersq + black + 
+                                south + smsa + reg661 + 
+                                reg662 + reg663 + reg664 + 
+                                reg665 + reg666 + reg667 + 
+                                reg668 + smsa66,data=card.data)
 card.model1IV
 
 # Multiple instruments
 Z = card.data[,c("nearc4","nearc2")]
-card.model2IV = ivmodel(Y=Y,D=D,Z=Z,X=X)
+card.model2IV = ivmodelFormula(lwage ~ educ + exper + expersq + black + 
+                                south + smsa + reg661 + 
+                                reg662 + reg663 + reg664 + 
+                                reg665 + reg666 + reg667 + 
+                                reg668 + smsa66 | nearc4 + nearc2 +
+                                exper + expersq + black + 
+                                south + smsa + reg661 + 
+                                reg662 + reg663 + reg664 + 
+                                reg665 + reg666 + reg667 + 
+                                reg668 + smsa66,data=card.data)
 card.model2IV
 }
 \keyword{Instrumental variables}

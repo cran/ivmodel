@@ -1,23 +1,17 @@
 \name{para}
 \alias{para}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{Parameter Estimation from Ivmodel
-%%  ~~function to do ... ~~
 }
 \description{\code{para} computes the estimation of several parameters for the \code{ivmodel} object, which could be used in the power calculation.
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
 para(ivmodel)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{ivmodel}{\code{ivmodel} object.
-%%     ~~Describe \code{ivmodel} here~~
 }
 }
 \details{\code{para} computes the coefficients of 1st and 2nd stage regression (gamma and beta). It also computes the covariance matrix of the error term of 1st and 2nd stage. (sigmau, sigmav, and rho)
-%%  ~~ If necessary, more details than the description above ~~
 }
 \value{
     \code{para} returns a list containing the following components
@@ -28,20 +22,13 @@ para(ivmodel)
 	\item{sigmav}{Standard deviation of error from regressing treatment on instruments}
 	\item{rho}{Correlation between u (potential outcome under control) and v (error from regressing treatment on instrument).}
 
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
 }
 
 \author{Yang Jiang, Hyunseung Kang, Dylan Small
-%%  ~~who you are~~
 }
 
 \seealso{
 See also \code{\link{ivmodel}} for details on the instrumental variables model.
-%% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
 data(card.data)

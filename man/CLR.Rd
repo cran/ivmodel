@@ -1,9 +1,9 @@
-\name{CLR.test}
-\alias{CLR.test}
+\name{CLR}
+\alias{CLR}
 \title{Conditional Likelihood Ratio Test}
-\description{\code{CLR.test} computes the conditional likelihood ratio test (Moreira, 2003) for the \code{ivmodel} object as well as the associated confidence interval.}
+\description{\code{CLR} computes the conditional likelihood ratio test (Moreira, 2003) for the \code{ivmodel} object as well as the associated confidence interval.}
 \usage{
-CLR.test(ivmodel, beta0 = 0, alpha = 0.05)
+CLR(ivmodel, beta0 = 0, alpha = 0.05)
 }
 \arguments{
   \item{ivmodel}{\code{ivmodel} object}
@@ -13,7 +13,7 @@ CLR.test(ivmodel, beta0 = 0, alpha = 0.05)
 \details{
 \code{CLR.test} computes the conditional likelihood ratio test for the instrumental variables model in \code{ivmodel} object, specifically for the parameter \eqn{\beta}. It also computes the \eqn{1 -\alpha} confidence interval associated with it by inverting the test. The test is fully robust to weak instruments (Moreira 2003). We use the approximation suggested in Andrews et al. (2006) to evaluate the p value and the confidence interval.}
 \value{
-   \code{CLR.test} returns a list containing the following components
+   \code{CLR} returns a list containing the following components
    \item{test.stat}{The value of the test statistic for testing the null hypothesis \eqn{H_0: \beta = \beta_0} in \code{ivmodel}}
    \item{p.value}{The p value of the test under the null hypothesis \eqn{H_0: \beta = \beta_0} in \code{ivmodel}}
    \item{ci}{A matrix of two columns, each row contains an interval associated with the confidence interval}
@@ -35,7 +35,7 @@ Xname=c("exper", "expersq", "black", "south", "smsa", "reg661",
 		"reg668", "smsa66")
 X=card.data[,Xname]
 card.model2IV = ivmodel(Y=Y,D=D,Z=Z,X=X)
-CLR.test(card.model2IV,alpha=0.01)
+CLR(card.model2IV,alpha=0.01)
 }
 \keyword{Instrumental variables}
 \keyword{Conditional likelihood ratio test}
