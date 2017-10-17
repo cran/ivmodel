@@ -1,5 +1,5 @@
-70c77b1136bb0a2ed704b4f8c5d4e35d *DESCRIPTION
-593be893726eea828f3ca1361339fc8b *NAMESPACE
+ac0fa29d3138d3fdf6060f1a59b16f44 *DESCRIPTION
+e6fc979256022bfe84dbe34deeb2e774 *NAMESPACE
 238387e19c77918af03868874ba1662d *R/AR.r
 420f427f89ffb0be4a20eb92c0514268 *R/ARsens.r
 3d2504ccf82d98cbf86dd335ec277f96 *R/CLR.r
@@ -7,7 +7,7 @@
 0dc91c3fa1395819d689a19fe005f673 *R/KClass.r
 7e09f81c8e9c1fd7957cedefd63bc4db *R/LIML.r
 1eee01dfee33fef50aedcae23f19ffa8 *R/TSLS.r
-be4d096e3ac5eb4076511b7ba000a2e9 *R/barplot.R
+b2a2e4585cc2efb933e3575b5633ae33 *R/barplot.R
 22aeb135f39c892d7777740c85b80a75 *R/coef.ivmodel.r
 2122425e7fec8268fcb5cae3d414eba2 *R/confint.ivmodel.r
 68e04044c6a9c5df0f6a8ad3e50a2068 *R/fitted.ivmodel.r
@@ -21,7 +21,7 @@ f15e96aeb9aeb499dd3c39f8599a9737 *R/print.ivmodel.r
 638ac3ad656ea45ae4445a6ca1692428 *R/resid.ivmodel.r
 27bc47a957224f16336c4e67069d7dc5 *R/residuals.ivmodel.r
 eb9171c6d300f41d98948bf8b8408b73 *R/summary.ivmodel.r
-19dda34da5e16a9436024fa21a71141d *build/partial.rdb
+75171cd2ab88faf206f2ae010e201b13 *build/partial.rdb
 bffc7c448708886f3462b2ee913b3e3c *data/card.data.rda
 fe514768edda9bc68810f83be683cacf *man/AR.power.Rd
 179608b1cd0ae66689d6efb36ff7e509 *man/AR.size.Rd
@@ -41,7 +41,7 @@ a459093d2b4a30ab0edf3e181c4b65b3 *man/KClass.Rd
 b7b3bb3caa4972ef3a20da08d4131dc7 *man/coef.ivmodel.Rd
 db5365e91167b85e12f4889a10a448bf *man/confint.ivmodel.Rd
 86c05858721fa9722d9498efca2ffa7f *man/fitted.ivmodel.Rd
-fe4b2d14723633cdbf3b69788d53772f *man/iv.diagnosis.Rd
+66b297c03bafdbfa7f58d1a71364e9d8 *man/iv.diagnosis.Rd
 8505f81bbd647a373a737aadb8816fae *man/ivmodel-internal.Rd
 169da4faaeb33ae3f22ce329edcb1f90 *man/ivmodel-package.Rd
 29b7f92613ee0e7d75e4db65f5aed9a1 *man/ivmodel.Rd

@@ -12,6 +12,7 @@
 #' \item{coef}{OLS coefficient of X ~ Z (reported if Z is not binary)}
 #' \item{se}{Standard error of OLS coefficient (reported if Z is not binary)}
 #' \item{p.val}{p-value of the independence of Z and X (Fisher's test if both are binary, logistic regression if Z is binary, linear regression if Z is continuous)}
+#' \item{x.sd}{sample standard deviations of X}
 #' \item{stand.diff}{Standardized difference (reported if Z is binary)}
 #' \item{bias.ratio}{Bias ratio}
 #' \item{bias.amplify}{Amplification of bias ratio}
@@ -24,10 +25,12 @@
 #' \itemize{
 #' \item{Baiocchi, M., Cheng, J., & Small, D. S. (2014). Instrumental variable methods for causal inference. Statistics in Medicine, 33(13), 2297-2340.}
 #' \item{Jackson, J. W., & Swanson, S. A. (2015). Toward a clearer portrayal of confounding bias in instrumental variable applications. Epidemiology, 26(4), 498.}
-#' }
+#' \item{Zhao, Q. & Small, D. S. Graphical diagnosis of confounding bias in instrumental variable analysis. Epidemiology, forthcoming.}
+#'}
 #'
 #' @importFrom stats fisher.test
 #' @importFrom stats glm
+#' @importFrom stats sd
 #'
 #' @export
 #'
@@ -70,6 +73,7 @@ iv.diagnosis <- function(Y, D, Z, X) {
                        x.mean0 = mean(X[Z == 0]),
                        p.val = p.val,
                        stand.diff = stand.diff,
+                       x.sd = sd(X),
                        bias.ratio = bias.ratio,
                        bias.amplify = bias.amplify,
                        bias.ols = bias.ols,
@@ -78,6 +82,7 @@ iv.diagnosis <- function(Y, D, Z, X) {
         output <- list(coef = lm(X ~ Z)$coef[2],
                        se = summary(lm(X ~ Z))$coefficients[2, 2],
                        p.val = p.val,
+                       x.sd = sd(X),
                        bias.ratio = bias.ratio,
                        bias.amplify = bias.amplify,
                        bias.ols = bias.ols,
@@ -89,6 +94,7 @@ iv.diagnosis <- function(Y, D, Z, X) {
 #' @describeIn iv.diagnosis IV diagnostic plot
 #'
 #' @param output Output from \code{iv.diagnosis}.
+#' @param order.by Order the bars by bias amplifying factor (variance of the outcome explained by each covariate), bias of the OLS estimate, or bias of the 2SLS estimate.
 #' @param bias.ratio Add bias ratios (text) to the plot?
 #' @param base_size size of the axis labels
 #' @param text_size size of the text (bias ratios)
@@ -97,10 +103,16 @@ iv.diagnosis <- function(Y, D, Z, X) {
 #' @import reshape2
 #' @import ggplot2
 #'
-iv.diagnosis.plot<- function(output, bias.ratio = TRUE, base_size = 15, text_size = 5) {
+iv.diagnosis.plot<- function(output, order.by = c("bias.amplify", "ols.bias", "2sls.bias"), bias.ratio = TRUE,  base_size = 15, text_size = 5) {
+
+    order.by <- match.arg(order.by, c("bias.amplify", "ols.bias", "2sls.bias"))
 
     output <- data.frame(output)
-    output$var <- factor(rownames(output), rownames(output)[order(abs(output$bias.ols))])
+    o <- switch(order.by,
+                bias.amplify = order(abs(output$bias.amplify) * output$x.sd),
+                bias.ols = order(abs(output$bias.ols)),
+                bias.2sls = order(abs(output$bias.2sls)))
+    output$var <- factor(rownames(output), rownames(output)[o])
     rownames(output) <- NULL
     df <- data.frame(output[, c("var", "bias.ols", "bias.2sls")])
     df <- melt(df, id.vars = "var")
