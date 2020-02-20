@@ -7,8 +7,8 @@
 \usage{
 iv.diagnosis(Y, D, Z, X)
 
-iv.diagnosis.plot(output, order.by = c("bias.amplify", "ols.bias",
-  "2sls.bias"), bias.ratio = TRUE, base_size = 15, text_size = 5)
+iv.diagnosis.plot(output, bias.ratio = TRUE, base_size = 15,
+  text_size = 5)
 }
 \arguments{
 \item{Y}{A numeric vector of outcomes.}
@@ -20,8 +20,6 @@ iv.diagnosis.plot(output, order.by = c("bias.amplify", "ols.bias",
 \item{X}{A vector, matrix or data frame of (exogenous) covariates.}
 
 \item{output}{Output from \code{iv.diagnosis}.}
-
-\item{order.by}{Order the bars by bias amplifying factor (variance of the outcome explained by each covariate), bias of the OLS estimate, or bias of the 2SLS estimate.}
 
 \item{bias.ratio}{Add bias ratios (text) to the plot?}
 
@@ -37,7 +35,6 @@ a list or data frame
 \item{coef}{OLS coefficient of X ~ Z (reported if Z is not binary)}
 \item{se}{Standard error of OLS coefficient (reported if Z is not binary)}
 \item{p.val}{p-value of the independence of Z and X (Fisher's test if both are binary, logistic regression if Z is binary, linear regression if Z is continuous)}
-\item{x.sd}{sample standard deviations of X}
 \item{stand.diff}{Standardized difference (reported if Z is binary)}
 \item{bias.ratio}{Bias ratio}
 \item{bias.amplify}{Amplification of bias ratio}
@@ -52,25 +49,30 @@ Diagnostics of instrumental variable analysis
 \itemize{
 \item \code{iv.diagnosis.plot}: IV diagnostic plot
 }}
+
 \examples{
 n <- 10000
 Z <- rbinom(n, 1, 0.5)
-X <- data.frame(matrix(rbinom(n * 5, 1, 0.5), n))
+X <- data.frame(matrix(c(rnorm(n), rbinom(n * 5, 1, 0.5)), n))
 D <- rbinom(n, 1, plogis(Z + X[, 1] + X[, 2] + X[, 3]))
 Y <- D + X[, 1] + X[, 2] + rnorm(n)
-output <- iv.diagnosis(Y, D, Z, X)
-print(output)
+print(output <- iv.diagnosis(Y, D, Z, X))
 iv.diagnosis.plot(output)
 
-}
-\author{
-Qingyuan Zhao
+Z <- rnorm(n)
+D <- rbinom(n, 1, plogis(Z + X[, 1] + X[, 2] + X[, 3]))
+Y <- D + X[, 1] + X[, 2] + rnorm(n)
+print(output <- iv.diagnosis(Y, D, Z, X)) ## stand.diff is not reported
+iv.diagnosis.plot(output)
+
 }
 \references{
 \itemize{
 \item{Baiocchi, M., Cheng, J., & Small, D. S. (2014). Instrumental variable methods for causal inference. Statistics in Medicine, 33(13), 2297-2340.}
 \item{Jackson, J. W., & Swanson, S. A. (2015). Toward a clearer portrayal of confounding bias in instrumental variable applications. Epidemiology, 26(4), 498.}
-\item{Zhao, Q. & Small, D. S. Graphical diagnosis of confounding bias in instrumental variable analysis. Epidemiology, forthcoming.}
+\item{Zhao, Q., & Small, D. S. (2018). Graphical diagnosis of confounding bias in instrumental variable analysis. Epidemiology, 29(4), e29--e31.}
 }
 }
-
+\author{
+Qingyuan Zhao
+}
