@@ -42,16 +42,26 @@ ivmodel <- function(Y,D,Z,X,intercept=TRUE,
   if(nrow(Z) != length(Y)) stop("Row dimension of Z and Y are not equal!")
   colnames(Z) = paste("Z",colnames(Z),sep="")
 
-  # Add intercept as X
-  if(intercept && !missing(X)) X = data.frame(X,1)
-  if(intercept && missing(X)) X = data.frame(rep(1,length(Y)))
-
   # Error checking: check X and convert "strings" into factors
   if(!missing(X)) {
     X = data.frame(X); stringIndex = sapply(X,is.character); X[stringIndex] = lapply(X[stringIndex],as.factor)
-	if(nrow(X) != length(Y)) stop("Row dimension of X and Y are not equal!")
-	colnames(X) = paste("X",colnames(X),sep="")
+	  if(nrow(X) != length(Y)) stop("Row dimension of X and Y are not equal!")
+	  colnames(X) = paste("X",colnames(X),sep="")
   }
+  
+  # Add intercept as X
+  if(intercept && !missing(X)) {
+    constantXTrue = apply(X,2,function(x){length(unique(x)) == 1})
+    if(any(constantXTrue)) {
+      warning("Trying to add the intercept term of ones, 
+                    but X already contains a constant covariate! Check your X. For now,
+                    we'll not add an intercept term in X to avoid rank deficiency.")
+    } else {
+      X = data.frame(X,intercept=rep(1,nrow(X)))
+    }
+  }
+  if(intercept && missing(X)) X = data.frame(intercept=rep(1,length(Y)))
+  
 
   # Coalesce all data into one data.frame
   if(!missing(X)) {
@@ -114,7 +124,8 @@ ivmodel <- function(Y,D,Z,X,intercept=TRUE,
       #qrXZ<-qr(cbind(X, Z))
       #Z<-(qr.Q(qrXZ)[, 1:(p+L)]%*%qrRM(qrXZ)[1:(p+L), 1:(p+L)])[,(p+1):(p+L)]
     }
-    ivmodelObject = list(call = match.call(),n=n,L=L,p=p,Y=Y,D=D,Z=Z,X=X,Yadj=Yadj,Dadj=Dadj,Zadj=Zadj, ZadjQR = ZadjQR)
+    ZXQR = qr(cbind(Z,X))
+    ivmodelObject = list(call = match.call(),n=n,L=L,p=p,Y=Y,D=D,Z=Z,X=X,ZXQR=ZXQR,Yadj=Yadj,Dadj=Dadj,Zadj=Zadj, ZadjQR = ZadjQR)
 
   }else{
     p = 0
@@ -130,7 +141,8 @@ ivmodel <- function(Y,D,Z,X,intercept=TRUE,
     if(L<ncol(Z) && L > 1)
       Z<-Zadj<-qr.Q(ZadjQR)[, 1:L]%*%qrRM(ZadjQR)[1:L, 1:L]
 
-    ivmodelObject = list(call = match.call(),n=n,L=L,p=p,Y=Y,D=D,Z=Z,X=NA,Yadj=Yadj,Dadj=Dadj,Zadj=Zadj, ZadjQR = ZadjQR)
+    ZXQR = qr(Z)
+    ivmodelObject = list(call = match.call(),n=n,L=L,p=p,Y=Y,D=D,Z=Z,X=NA,ZXQR=ZXQR,Yadj=Yadj,Dadj=Dadj,Zadj=Zadj, ZadjQR = ZadjQR)
   }
 
   class(ivmodelObject) = "ivmodel"
