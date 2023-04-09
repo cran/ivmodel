@@ -7,8 +7,7 @@
 \usage{
 iv.diagnosis(Y, D, Z, X)
 
-iv.diagnosis.plot(output, bias.ratio = TRUE, base_size = 15,
-  text_size = 5)
+iv.diagnosis.plot(output, bias.ratio = TRUE, base_size = 15, text_size = 5)
 }
 \arguments{
 \item{Y}{A numeric vector of outcomes.}
@@ -47,9 +46,9 @@ Diagnostics of instrumental variable analysis
 }
 \section{Functions}{
 \itemize{
-\item \code{iv.diagnosis.plot}: IV diagnostic plot
-}}
+\item \code{iv.diagnosis.plot()}: IV diagnostic plot
 
+}}
 \examples{
 n <- 10000
 Z <- rbinom(n, 1, 0.5)
